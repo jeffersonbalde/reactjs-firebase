@@ -3,7 +3,7 @@ import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   // useEffect(() => {
   //   setIsAuthenticated(JSON.parse(localStorage.getItem("is_authenticated")));

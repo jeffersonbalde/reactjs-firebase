@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --yellow: linear-gradient(180deg, #F8D49A -146.42%, #FAD79D -46.42%);
   --orange: #fca61f;
@@ -49,4 +51,7 @@
   display: grid;
   border-radius: 1rem;
   box-shadow: var(--boxShadow);
+  /* overflow: hidden; */
+  overflow-x: auto;
+  /* overflow-y: hidden; */
 }
