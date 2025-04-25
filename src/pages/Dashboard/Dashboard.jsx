@@ -40,7 +40,7 @@ const Dashboard = () => {
         <button onClick={() => setIsModalOpen(true)}>Add Student</button>
       </div>
       <Table employees={employees} loading={loading} />
-      <AddEmployeeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+      <AddEmployeeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} employees={employees} setEmployees={setEmployees} getEmployees={getEmployees}/>
     </div>
   );
 };
