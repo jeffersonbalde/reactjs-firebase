@@ -1,5 +1,5 @@
 import React from "react";
-import SyncLoader from "react-spinners/SyncLoader"; // Spinner for loading
+import SyncLoader from "react-spinners/SyncLoader";
 
 const Table = ({ employees, handleEdit, handleDelete, loading }) => {
   if (loading) {
@@ -11,54 +11,63 @@ const Table = ({ employees, handleEdit, handleDelete, loading }) => {
   }
 
   return (
-    <div className="striped-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>Contact Number</th>
-            <th colSpan={2} className="text-center">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees && employees.length > 0 ? (
-            employees.map((employee) => (
-              <tr key={employee.id}>
-                <td>{employee.id}</td>
-                <td>{employee.firstName}</td>
-                <td>{employee.lastName}</td>
-                <td>{employee.address}</td>
-                <td>{employee.contactNumber}</td>
-                <td>
-                  <button
-                    className="button muted-button"
-                    onClick={() => handleEdit(employee.id)}
-                  >
-                    Edit
-                  </button>
-                </td>
-                <td>
-                  <button
-                    className="button muted-button"
-                    onClick={() => handleDelete(employee.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+    <div className="card">
+      <div className="card-header">
+        <p className="card-title">Students Data</p>
+      </div>
+      <div className="card-body p-0">
+        <div className="relative h-[500px] w-full flex-shrink-0 overflow-auto rounded-none [scrollbar-width:_thin]">
+          <table className="table">
+            <thead className="table-header">
+              <tr className="table-row">
+                <th colSpan={2} className="table-head">
+                  Actions
+                </th>
+                <th className="table-head">First Name</th>
+                <th className="table-head">Last Name</th>
+                <th className="table-head">Address</th>
+                <th className="table-head">Contact Number</th>
+                <th className="table-head">Id</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={7} className="text-center">No employees found</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody className="table-body">
+              {employees && employees.length > 0 ? (
+                employees.map((employee) => (
+                  <tr key={employee.id} className="table-row">
+                    <td className="table-cell">
+                      <button
+                        className="button muted-button"
+                        onClick={() => handleEdit(employee.id)}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td className="table-cell">
+                      <button
+                        className="button muted-button"
+                        onClick={() => handleDelete(employee.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                    <td className="table-cell">{employee.firstName}</td>
+                    <td className="table-cell">{employee.lastName}</td>
+                    <td className="table-cell">{employee.address}</td>
+                    <td className="table-cell">{employee.contactNumber}</td>
+                    <td className="table-cell">{employee.id}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="table-row">
+                  <td colSpan={7} className="text-center">
+                    No students found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

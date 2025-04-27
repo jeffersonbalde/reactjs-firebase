@@ -11,10 +11,10 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="AppGlass">
+      <div className="AppGlass flex justify-center items-center p-3">
         {isAuthenticated ? (
           <Dashboard />
-        ): (
+        ): (  
           <Login />
         )}
       </div>
