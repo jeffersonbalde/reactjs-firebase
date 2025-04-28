@@ -92,6 +92,7 @@ const AddStudentModal = ({
           if (icon) icon.style.margin = "10px auto -10px auto";
           if (title) title.style.fontSize = "1.8rem";
           if (text) text.style.fontSize = "1.2rem";
+          if (text) text.style.marginBottom = "1.2rem";
 
           const confirmBtn = document.querySelector(".swal-confirm");
           if (confirmBtn) {
@@ -377,6 +378,43 @@ const AddStudentModal = ({
     });
   };
 
+  const handleContactNumberChange = (e) => {
+    const value = e.target.value;
+
+    // If non-numeric input is detected
+    if (/\D/.test(value)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Input",
+        text: "Only numbers are allowed in the contact number.",
+        showConfirmButton: true,
+        customClass: {
+          /* your custom Swal styles here */
+        },
+      });
+      return; // Don't update the state if invalid
+    }
+
+    // If length exceeds 11 digits
+    if (value.length > 11) {
+      Swal.fire({
+        icon: "error",
+        title: "Too Long",
+        text: "Contact number must not exceed 11 digits.",
+        showConfirmButton: true,
+        customClass: {
+          /* your custom Swal styles here */
+        },
+      });
+      return; // Don't update the state if too long
+    }
+
+    setContactNumber(value); // If valid, update normally
+                  if (errors.contactNumber && e.target.value.trim() !== "") {
+                setErrors((prev) => ({ ...prev, contactNumber: false }));
+              }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -516,12 +554,13 @@ const AddStudentModal = ({
                   placeholder="Enter Contact Number"
                   value={contactNumber}
                   ref={contactNumberRef}
-                  onChange={(e) => {
-                    setContactNumber(e.target.value);
-                    if (errors.contactNumber && e.target.value.trim() !== "") {
-                      setErrors((prev) => ({ ...prev, contactNumber: false }));
-                    }
-                  }}
+                  // onChange={(e) => {
+                  //   setContactNumber(e.target.value);
+                  //   if (errors.contactNumber && e.target.value.trim() !== "") {
+                  //     setErrors((prev) => ({ ...prev, contactNumber: false }));
+                  //   }
+                  // }}
+                  onChange={handleContactNumberChange}
                   className={`w-full p-3 border rounded-md outline-none transition text-black font-medium
                   ${
                     errors.contactNumber
@@ -539,9 +578,9 @@ const AddStudentModal = ({
               <div className="flex justify-end mt-6 gap-3">
                 <motion.button
                   type="submit"
-                  whileHover={{ y: -3  }} // Moves the button up when hovered
+                  whileHover={{ y: -3 }} // Moves the button up when hovered
                   transition={{ duration: 0.3 }}
-                  className="px-6 py-2 text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                  className="px-6 py-2 text-white bg-[#004332] rounded-lg shadow-md hover:bg-[#003022] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer"
                 >
                   Add
                 </motion.button>
@@ -551,7 +590,7 @@ const AddStudentModal = ({
                   onClick={onClose}
                   whileHover={{ y: -3 }} // Moves the button up when hovered
                   transition={{ duration: 0.3 }}
-                  className="px-6 py-2 text-gray-700 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                  className="px-6 py-2 text-white bg-[#7A3200] rounded-lg shadow-md hover:bg-[#5c2400] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 cursor-pointer"
                 >
                   Close
                 </motion.button>
