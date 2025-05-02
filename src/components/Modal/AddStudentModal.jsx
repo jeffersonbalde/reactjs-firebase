@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Swal from "sweetalert2";
+import showAlert from "../ConfirmationDialog/ConfirmationDialog";
 
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
@@ -12,6 +12,7 @@ const AddStudentModal = ({
   setEmployees,
   getEmployees,
 }) => {
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
@@ -35,7 +36,7 @@ const AddStudentModal = ({
     }
   }, [isOpen]);
 
-  const handleAdd = async (e) => {
+  const handleAddValidation = async (e) => {
     e.preventDefault();
 
     const newErrors = {
@@ -69,230 +70,37 @@ const AddStudentModal = ({
           break;
       }
 
-      return Swal.fire({
+      return showAlert({
         icon: "error",
         title: "Error!",
-        text: "All fields are required and cannot be empty.",
-        showConfirmButton: true,
-        customClass: {
-          popup: "swal-popup",
-          title: "swal-title",
-          htmlContainer: "swal-text",
-          icon: "swal-icon",
-          confirmButton: "swal-confirm",
-        },
-        didOpen: () => {
-          const popup = document.querySelector(".swal-popup");
-          const title = document.querySelector(".swal-title");
-          const text = document.querySelector(".swal-text");
-          const icon = document.querySelector(".swal-icon");
-
-          if (popup) popup.style.padding = "15px";
-          if (popup) popup.style.maxWidth = "350px";
-          if (icon) icon.style.margin = "10px auto -10px auto";
-          if (title) title.style.fontSize = "1.8rem";
-          if (text) text.style.fontSize = "1.2rem";
-          if (text) text.style.marginBottom = "1.2rem";
-
-          const confirmBtn = document.querySelector(".swal-confirm");
-          if (confirmBtn) {
-            confirmBtn.style.backgroundColor = "#7A3200";
-            confirmBtn.style.color = "white";
-            confirmBtn.style.border = "none";
-            confirmBtn.style.padding = "16px 16px";
-            confirmBtn.style.borderRadius = "6px";
-            confirmBtn.style.transition = "background-color 0.2s";
-          }
-          const style = document.createElement("style");
-          style.innerHTML = `.swal-confirm:hover { background-color: #7A3200 !important; }`;
-          document.head.appendChild(style);
-        },
+        text: "Please fill in all required fields.",
       });
     }
 
-    if (
-      !firstName.trim() ||
-      !lastName.trim() ||
-      !address.trim() ||
-      !contactNumber.trim()
-    ) {
-      return Swal.fire({
-        icon: "error",
-        title: "Error!",
-        text: "All fields are required and cannot be empty.",
-        showConfirmButton: true,
-        customClass: {
-          popup: "swal-popup",
-          title: "swal-title",
-          htmlContainer: "swal-text",
-          icon: "swal-icon",
-          confirmButton: "swal-confirm",
-        },
-        didOpen: () => {
-          const popup = document.querySelector(".swal-popup");
-          const title = document.querySelector(".swal-title");
-          const text = document.querySelector(".swal-text");
-          const icon = document.querySelector(".swal-icon");
-
-          if (popup) {
-            popup.style.padding = "15px";
-            popup.style.maxWidth = "350px";
-          }
-          if (icon) {
-            icon.style.margin = "10px auto -30px auto";
-          }
-          if (title) {
-            title.style.marginBottom = "6px";
-            title.style.fontSize = "1.8rem";
-          }
-          if (text) {
-            text.style.marginBottom = "10px";
-            text.style.fontSize = "1.2rem";
-          }
-
-          const confirmBtn = document.querySelector(".swal-confirm");
-
-          if (confirmBtn) {
-            confirmBtn.style.backgroundColor = "#7A3200";
-            confirmBtn.style.color = "white";
-            confirmBtn.style.border = "none";
-            confirmBtn.style.padding = "13px 16px";
-            confirmBtn.style.borderRadius = "6px";
-            confirmBtn.style.transition = "background-color 0.2s";
-          }
-
-          const style = document.createElement("style");
-          style.innerHTML = `
-                .swal-confirm:hover {
-                  background-color: #7A3200 !important;
-                }
-              `;
-          document.head.appendChild(style);
-        },
-      });
+    const trimmedContactNumber = contactNumber.trim();
+    const contactNumberPattern = /^[0-9]{11}$/;
+    
+    if (!contactNumberPattern.test(trimmedContactNumber)) {
+      contactNumberRef.current.focus(); // Always focus the input
+    
+      if (/\D/.test(trimmedContactNumber)) {
+        return showAlert({
+          icon: "error",
+          title: "Error!",
+          text: "Only numbers are allowed in the contact number.",
+        });
+      } else {
+        return showAlert({
+          icon: "error",
+          title: "Error!",
+          text: "Contact number must be exactly 11 digits.",
+        });
+      }
     }
 
     const trimmedFirstName = firstName.trim();
     const trimmedLastName = lastName.trim();
     const trimmedAddress = address.trim();
-    const trimmedContactNumber = contactNumber.trim();
-
-    const contactNumberPattern = /^[0-9]{11}$/;
-    if (!contactNumberPattern.test(trimmedContactNumber)) {
-      if (/\D/.test(trimmedContactNumber)) {
-        return Swal.fire({
-          icon: "error",
-          title: "Invalid Contact Number",
-          text: "Contact number must only contain numbers.",
-          showConfirmButton: true,
-
-          customClass: {
-            popup: "swal-popup",
-            title: "swal-title",
-            htmlContainer: "swal-text",
-            icon: "swal-icon",
-            confirmButton: "swal-confirm",
-          },
-          didOpen: () => {
-            const popup = document.querySelector(".swal-popup");
-            const title = document.querySelector(".swal-title");
-            const text = document.querySelector(".swal-text");
-            const icon = document.querySelector(".swal-icon");
-
-            if (popup) {
-              popup.style.padding = "15px";
-              popup.style.maxWidth = "350px";
-            }
-            if (icon) {
-              icon.style.margin = "10px auto -30px auto";
-            }
-            if (title) {
-              title.style.marginBottom = "6px";
-              title.style.fontSize = "1.8rem";
-            }
-            if (text) {
-              text.style.marginBottom = "10px";
-              text.style.fontSize = "1.2rem";
-            }
-
-            const confirmBtn = document.querySelector(".swal-confirm");
-
-            if (confirmBtn) {
-              confirmBtn.style.backgroundColor = "#7A3200";
-              confirmBtn.style.color = "white";
-              confirmBtn.style.border = "none";
-              confirmBtn.style.padding = "13px 16px";
-              confirmBtn.style.borderRadius = "6px";
-              confirmBtn.style.transition = "background-color 0.2s";
-            }
-
-            const style = document.createElement("style");
-            style.innerHTML = `
-                .swal-confirm:hover {
-                  background-color: #7A3200 !important;
-                }
-              `;
-            document.head.appendChild(style);
-          },
-        });
-      } else {
-        return Swal.fire({
-          icon: "error",
-          title: "Invalid Contact Number",
-          text: "Contact number must be exactly 11 digits.",
-          showConfirmButton: true,
-
-          customClass: {
-            popup: "swal-popup",
-            title: "swal-title",
-            htmlContainer: "swal-text",
-            icon: "swal-icon",
-            confirmButton: "swal-confirm",
-          },
-          didOpen: () => {
-            const popup = document.querySelector(".swal-popup");
-            const title = document.querySelector(".swal-title");
-            const text = document.querySelector(".swal-text");
-            const icon = document.querySelector(".swal-icon");
-
-            if (popup) {
-              popup.style.padding = "15px";
-              popup.style.maxWidth = "350px";
-            }
-            if (icon) {
-              icon.style.margin = "10px auto -30px auto";
-            }
-            if (title) {
-              title.style.marginBottom = "6px";
-              title.style.fontSize = "1.8rem";
-            }
-            if (text) {
-              text.style.marginBottom = "10px";
-              text.style.fontSize = "1.2rem";
-            }
-
-            const confirmBtn = document.querySelector(".swal-confirm");
-
-            if (confirmBtn) {
-              confirmBtn.style.backgroundColor = "#7A3200";
-              confirmBtn.style.color = "white";
-              confirmBtn.style.border = "none";
-              confirmBtn.style.padding = "13px 16px";
-              confirmBtn.style.borderRadius = "6px";
-              confirmBtn.style.transition = "background-color 0.2s";
-            }
-
-            const style = document.createElement("style");
-            style.innerHTML = `
-                .swal-confirm:hover {
-                  background-color: #7A3200 !important;
-                }
-              `;
-            document.head.appendChild(style);
-          },
-        });
-      }
-    }
 
     const newEmployee = {
       firstName: trimmedFirstName,
@@ -321,60 +129,10 @@ const AddStudentModal = ({
 
     getEmployees();
 
-    Swal.fire({
+    return showAlert({
       icon: "success",
       title: "Student added successfully!",
       text: `${firstName} ${lastName}'s data has been added.`,
-      showConfirmButton: true,
-
-      customClass: {
-        popup: "swal-popup",
-        title: "swal-title",
-        htmlContainer: "swal-text",
-        icon: "swal-icon",
-        confirmButton: "swal-confirm",
-      },
-      didOpen: () => {
-        const popup = document.querySelector(".swal-popup");
-        const title = document.querySelector(".swal-title");
-        const text = document.querySelector(".swal-text");
-        const icon = document.querySelector(".swal-icon");
-
-        if (popup) {
-          popup.style.padding = "15px";
-          popup.style.maxWidth = "350px";
-        }
-        if (icon) {
-          icon.style.margin = "10px auto -30px auto";
-        }
-        if (title) {
-          title.style.marginBottom = "6px";
-          title.style.fontSize = "1.8rem";
-        }
-        if (text) {
-          text.style.marginBottom = "10px";
-          text.style.fontSize = "1.2rem";
-        }
-
-        const confirmBtn = document.querySelector(".swal-confirm");
-
-        if (confirmBtn) {
-          confirmBtn.style.backgroundColor = "#004332";
-          confirmBtn.style.color = "white";
-          confirmBtn.style.border = "none";
-          confirmBtn.style.padding = "13px 16px";
-          confirmBtn.style.borderRadius = "6px";
-          confirmBtn.style.transition = "background-color 0.2s";
-        }
-
-        const style = document.createElement("style");
-        style.innerHTML = `
-                .swal-confirm:hover {
-                  background-color: #004332 !important;
-                }
-              `;
-        document.head.appendChild(style);
-      },
     });
   };
 
@@ -383,36 +141,26 @@ const AddStudentModal = ({
 
     // If non-numeric input is detected
     if (/\D/.test(value)) {
-      Swal.fire({
+      return showAlert({
         icon: "error",
-        title: "Invalid Input",
+        title: "Error!",
         text: "Only numbers are allowed in the contact number.",
-        showConfirmButton: true,
-        customClass: {
-          /* your custom Swal styles here */
-        },
       });
-      return; // Don't update the state if invalid
     }
 
     // If length exceeds 11 digits
     if (value.length > 11) {
-      Swal.fire({
+      return showAlert({
         icon: "error",
-        title: "Too Long",
+        title: "Error!",
         text: "Contact number must not exceed 11 digits.",
-        showConfirmButton: true,
-        customClass: {
-          /* your custom Swal styles here */
-        },
       });
-      return; // Don't update the state if too long
     }
 
     setContactNumber(value); // If valid, update normally
-                  if (errors.contactNumber && e.target.value.trim() !== "") {
-                setErrors((prev) => ({ ...prev, contactNumber: false }));
-              }
+    if (errors.contactNumber && e.target.value.trim() !== "") {
+      setErrors((prev) => ({ ...prev, contactNumber: false }));
+    }
   };
 
   return (
@@ -441,7 +189,7 @@ const AddStudentModal = ({
             </h2>
 
             {/* Form */}
-            <form className="space-y-4" onSubmit={handleAdd}>
+            <form className="space-y-4" onSubmit={handleAddValidation}>
               <div className="w-full flex flex-col gap-2">
                 <label
                   htmlFor="firstName"
@@ -462,11 +210,11 @@ const AddStudentModal = ({
                     }
                   }}
                   className={`w-full p-3 border rounded-md outline-none transition text-black font-medium
-                    ${
-                      errors.firstName
-                        ? "shadow-md border-red-500 ring-0 ring-red-400"
-                        : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
-                    }`}
+                      ${
+                        errors.firstName
+                          ? "shadow-md border-red-500 ring-0 ring-red-400"
+                          : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                      }`}
                 />
                 {errors.firstName && (
                   <div style={{ color: "red", fontSize: "1.1rem" }}>
@@ -495,11 +243,11 @@ const AddStudentModal = ({
                     }
                   }}
                   className={`w-full p-3 border rounded-md outline-none transition text-black font-medium
-                  ${
-                    errors.lastName
-                      ? "shadow-md border-red-500 ring-0 ring-red-400"
-                      : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
-                  }`}
+                    ${
+                      errors.lastName
+                        ? "shadow-md border-red-500 ring-0 ring-red-400"
+                        : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                    }`}
                 />
                 {errors.lastName && (
                   <div style={{ color: "red", fontSize: "1.1rem" }}>
@@ -528,11 +276,11 @@ const AddStudentModal = ({
                     }
                   }}
                   className={`w-full p-3 border rounded-md outline-none transition text-black font-medium
-                    ${
-                      errors.address
-                        ? "shadow-md border-red-500 ring-0 ring-red-400"
-                        : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
-                    }`}
+                      ${
+                        errors.address
+                          ? "shadow-md border-red-500 ring-0 ring-red-400"
+                          : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                      }`}
                 />
                 {errors.address && (
                   <div style={{ color: "red", fontSize: "1.1rem" }}>
@@ -562,11 +310,11 @@ const AddStudentModal = ({
                   // }}
                   onChange={handleContactNumberChange}
                   className={`w-full p-3 border rounded-md outline-none transition text-black font-medium
-                  ${
-                    errors.contactNumber
-                      ? "shadow-md border-red-500 ring-0 ring-red-400"
-                      : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
-                  }`}
+                    ${
+                      errors.contactNumber
+                        ? "shadow-md border-red-500 ring-0 ring-red-400"
+                        : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                    }`}
                 />
                 {errors.contactNumber && (
                   <div style={{ color: "red", fontSize: "1.1rem" }}>

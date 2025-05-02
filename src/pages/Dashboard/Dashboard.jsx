@@ -168,9 +168,9 @@ const Dashboard = () => {
             </div>
         ))} */} 
       <div className="flex flex-col items-start gap-4 p-5">
-        <h1 className="text-3xl font-bold">ReactJS with Firebase Cloud Firestore CRUD APP</h1>
+        <h1 cla ssName="text-3xl font-bold">ReactJS with Firebase Cloud Firestore CRUD APP</h1>
         <p className="">by Jefferson Balde</p>
-        <button onClick={() => setIsModalOpen(true)}>Add Student</button>
+        <button onClick={() => setIsModalOpen(true)} className="cursor-pointer">Add Student</button>
       </div>
 
       {loading ? (
