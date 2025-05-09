@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import showAlert from "../ConfirmationDialog/ConfirmationDialog";
+import { AiOutlineUser } from "react-icons/ai";
 
 import { doc, setDoc } from "firebase/firestore"; 
 import { db } from "../../services/firebase"; 
@@ -195,7 +196,9 @@ const AddStudentModal = ({
             exit={{ opacity: 0, scale: 0.8, y: "-50%", x: "-50%" }}
           >
             <h2 className="text-xl font-bold mb-6 border-b border-gray-300 pb-5">
-              Edit Student
+              <span className="flex items-center gap-2">
+                <AiOutlineUser /> Edit Student
+              </span>
             </h2>
 
             {/* Form */}
@@ -223,7 +226,7 @@ const AddStudentModal = ({
                       ${
                         errors.firstName
                           ? "shadow-md border-red-500 ring-0 ring-red-400"
-                          : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                          : "shadow-sm border-gray-300 focus:border-slate-950 focus:ring-1 focus:shadow-md"
                       }`}
                 />
                 {errors.firstName && (
@@ -256,7 +259,7 @@ const AddStudentModal = ({
                     ${
                       errors.lastName
                         ? "shadow-md border-red-500 ring-0 ring-red-400"
-                        : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                        : "shadow-sm border-gray-300 focus:border-slate-950 focus:ring-1 focus:shadow-md"
                     }`}
                 />
                 {errors.lastName && (
@@ -289,7 +292,7 @@ const AddStudentModal = ({
                       ${
                         errors.address
                           ? "shadow-md border-red-500 ring-0 ring-red-400"
-                          : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                          : "shadow-sm border-gray-300 focus:border-slate-950 focus:ring-1 focus:shadow-md"
                       }`}
                 />
                 {errors.address && (
@@ -323,7 +326,7 @@ const AddStudentModal = ({
                     ${
                       errors.contactNumber
                         ? "shadow-md border-red-500 ring-0 ring-red-400"
-                        : "shadow-sm border-gray-300 focus:border-blue-500 focus:ring-0 focus:ring-blue-500 focus:shadow-md"
+                        : "shadow-sm border-gray-300 focus:border-slate-950 focus:ring-1 focus:shadow-md"
                     }`}
                 />
                 {errors.contactNumber && (
@@ -335,22 +338,21 @@ const AddStudentModal = ({
 
               <div className="flex justify-end mt-6 gap-3">
                 <motion.button
-                  type="submit"
-                  whileHover={{ y: -3 }} // Moves the button up when hovered
-                  transition={{ duration: 0.3 }}
-                  className="px-6 py-2 text-white bg-[#004332] rounded-lg shadow-md hover:bg-[#003022] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer"
-                >
-                  Update
-                </motion.button>
-
-                <motion.button
                   type="button"
                   onClick={onClose}
                   whileHover={{ y: -3 }} // Moves the button up when hovered
                   transition={{ duration: 0.3 }}
-                  className="px-6 py-2 text-white bg-[#7A3200] rounded-lg shadow-md hover:bg-[#5c2400] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 cursor-pointer"
+                  className="px-6 py-2 text-[#24292F] border-2 border-[#D5D7DA] font-bold bg-[#F6F8FA] rounded-lg shadow-md hover:bg-[#E1E4E8] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 cursor-pointer"
                 >
                   Close
+                </motion.button>
+                <motion.button
+                  type="submit"
+                  whileHover={{ y: -3 }} // Moves the button up when hovered
+                  transition={{ duration: 0.3 }}
+                  className="px-6 py-2 text-white bg-[#00304f] rounded-lg shadow-md hover:bg-[#00263d] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 cursor-pointer"
+                >
+                  Update
                 </motion.button>
               </div>
             </form>

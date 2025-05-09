@@ -8,9 +8,9 @@ const showAlert = ({
 }) => {
   // Set confirmColor based on icon if not manually provided
   if (!confirmColor) {
-    if (icon === "error") confirmColor = "#7A3200"; // red
-    else if (icon === "success") confirmColor = "#004332"; // green
-    else confirmColor = "#7A3200"; // default
+    if (icon === "error") confirmColor = "#F6F8FA"; // red
+    else if (icon === "success") confirmColor = "#F6F8FA"; // green
+    else confirmColor = "#F6F8FA"; // default
   }
 
   return Swal.fire({
@@ -47,11 +47,11 @@ const showAlert = ({
       }
       if (confirmBtn) {
         confirmBtn.style.backgroundColor = confirmColor;
-        confirmBtn.style.color = "white";
-        confirmBtn.style.border = "none";
+        confirmBtn.style.color = "#24292F";
+        confirmBtn.style.border = "3px solid #D5D7DA";
         confirmBtn.style.padding = "13px 16px";
         confirmBtn.style.borderRadius = "6px";
-        confirmBtn.style.transition = "background-color 0.2s";
+        confirmBtn.style.transition = "background-color 0.2s border-color 0.2s";
       }
 
       const style = document.createElement("style");

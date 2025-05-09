@@ -33,7 +33,7 @@
   }
 
   .card {
-      @apply flex flex-col gap-y-4 rounded-lg border border-slate-300 bg-white p-4 transition-colors;
+      @apply flex flex-col gap-y-4 rounded-lg border border-slate-400 bg-white p-4 transition-colors;
   }
 
   .card-header {
@@ -41,7 +41,7 @@
   }
 
   .card-title {
-      @apply font-medium text-slate-900 transition-colors;
+      @apply font-bold text-slate-900 transition-colors text-[1.3rem];
   }
 
   .card-body {
@@ -49,7 +49,7 @@
   }
 
   .table {
-      @apply h-full w-full text-slate-900 ;
+      @apply w-full text-slate-900;
   }
 
   .table-header {
@@ -57,15 +57,16 @@
   }
 
   .table-row {
-      @apply border-b border-slate-300 transition-colors last:border-none dark:border-slate-700;
+      /* @apply border-b border-slate-300 transition-colors last:border-none dark:border-slate-400; */
+      @apply border-b border-slate-300 transition-colors last:border-none dark:border-slate-400;
   }
 
-  .table-head {
-      @apply h-12 px-4 text-start;
+  .table-head { 
+      @apply h-12 px-4 text-start uppercase text-gray-500 text-[.9rem];
   }
 
   .table-cell {
-      @apply w-fit whitespace-nowrap p-4 font-medium;
+      @apply w-fit whitespace-nowrap p-4 font-medium; 
   }
 }
 

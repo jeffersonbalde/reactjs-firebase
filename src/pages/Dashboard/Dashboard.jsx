@@ -6,6 +6,7 @@ import AddStudentModal from "../../components/Modal/AddStudentModal";
 import Swal from "sweetalert2";
 import SyncLoader from "react-spinners/SyncLoader";
 import EditStudentModal from "../../components/Modal/EditStudentModal";
+import AddButton from "../../components/Buttons/AddButton";
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -40,10 +41,10 @@ const Dashboard = () => {
 
         if (popup) {
           popup.style.padding = "15px";
-          popup.style.maxWidth = "350px";
+          popup.style.maxWidth = "320px";
         }
         if (icon) {
-          icon.style.margin = "10px auto -30px auto";
+          icon.style.margin = "10px auto 0 auto";
         }
         if (title) {
           title.style.marginBottom = "6px";
@@ -64,18 +65,18 @@ const Dashboard = () => {
         const cancelBtn = document.querySelector(".swal-cancel");
 
         if (confirmBtn) {
-          confirmBtn.style.backgroundColor = "#7A3200";
-          confirmBtn.style.color = "white";
-          confirmBtn.style.border = "none";
+          confirmBtn.style.backgroundColor = "#E1E4E8";
+          confirmBtn.style.color = "#24292F";
+          confirmBtn.style.border = "2px solid #D5D7DA";
           confirmBtn.style.padding = "13px 16px";
           confirmBtn.style.borderRadius = "6px";
           confirmBtn.style.transition = "background-color 0.2s";
         }
 
         if (cancelBtn) {
-          cancelBtn.style.backgroundColor = "#354A53";
-          cancelBtn.style.color = "white";
-          cancelBtn.style.border = "none";
+          cancelBtn.style.backgroundColor = "#E1E4E8";
+          cancelBtn.style.color = "#24292F";
+          cancelBtn.style.border = "2px solid #D5D7DA";
           cancelBtn.style.padding = "13px 16px";
           cancelBtn.style.borderRadius = "6px";
           cancelBtn.style.transition = "background-color 0.2s";
@@ -83,13 +84,11 @@ const Dashboard = () => {
 
         const style = document.createElement("style");
         style.innerHTML = `
-        .swal-confirm:hover {
-          background-color: #7A3200 !important;
-        }
-        .swal-cancel:hover {
-          background-color: #4b5563 !important;
-        }
-      `;
+          .swal-confirm:hover,
+          .swal-cancel:hover {
+            background-color: #D5D7DA !important;
+          }
+        `;
         document.head.appendChild(style);
       },
     }).then(async (result) => {
@@ -113,10 +112,10 @@ const Dashboard = () => {
     });
   };
 
-  const handleEdit = id => {
+  const handleEdit = (id) => {
     const selected = employees.find((emp) => emp.id === id); // returns object
     setSelectedStudent(selected); // GOOD: sets a single object
-    console.log('selected', selected);
+    console.log("selected", selected);
     setIsModalCloseOpen(true);
   };
 
@@ -160,17 +159,18 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="container flex flex-col h-full w-full overflow-auto p-3 ">
-
+    <div className="container flex flex-col h-full w-full overflow-auto p-3 gap-6">
       {/* {employees.map((employee, i) => (
             <div key={i}>
                 <h1>{employee.firstName}</h1>
             </div>
-        ))} */} 
-      <div className="flex flex-col items-start gap-4 p-5">
-        <h1 cla ssName="text-3xl font-bold">ReactJS with Firebase Cloud Firestore CRUD APP</h1>
+        ))} */}
+      <div className="flex flex-col items-start gap-4 ">
+        <h1 cla ssName="text-3xl font-bold">
+          ReactJS with Firebase Cloud Firestore CRUD APP
+        </h1>
         <p className="">by Jefferson Balde</p>
-        <button onClick={() => setIsModalOpen(true)} className="cursor-pointer">Add Student</button>
+        <AddButton onClick={() => setIsModalOpen(true)} text="Add Student" />
       </div>
 
       {loading ? (

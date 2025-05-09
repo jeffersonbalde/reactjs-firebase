@@ -1,5 +1,7 @@
 import React from "react";
 import SyncLoader from "react-spinners/SyncLoader";
+import TableEditButton from "../Buttons/TableEditButton";
+import TableDeleteButton from "../Buttons/TableDeleteButton";
 
 const Table = ({ employees, handleEdit, handleDelete, loading }) => {
   if (loading) {
@@ -20,7 +22,7 @@ const Table = ({ employees, handleEdit, handleDelete, loading }) => {
           <table className="table">
             <thead className="table-header">
               <tr className="table-row">
-                <th colSpan={2} className="table-head">
+                <th colSpan={1} className="table-head">
                   Actions
                 </th>
                 <th className="table-head">First Name</th>
@@ -35,20 +37,8 @@ const Table = ({ employees, handleEdit, handleDelete, loading }) => {
                 employees.map((employee) => (
                   <tr key={employee.id} className="table-row">
                     <td className="table-cell">
-                      <button
-                        className="button muted-button"
-                        onClick={() => handleEdit(employee.id)}
-                      >
-                        Edit
-                      </button>
-                    </td>
-                    <td className="table-cell">
-                      <button
-                        className="button muted-button"
-                        onClick={() => handleDelete(employee.id)}
-                      >
-                        Delete
-                      </button>
+                      <TableEditButton onClick={() => handleEdit(employee.id)} />
+                      <TableDeleteButton onClick={() => handleDelete(employee.id)} />
                     </td>
                     <td className="table-cell">{employee.firstName}</td>
                     <td className="table-cell">{employee.lastName}</td>
