@@ -27,6 +27,7 @@ const Table = ({ employees, handleEdit, handleDelete, loading }) => {
                 </th>
                 <th className="table-head">First Name</th>
                 <th className="table-head">Last Name</th>
+                <th className="table-head">Gender</th>
                 <th className="table-head">Address</th>
                 <th className="table-head">Contact Number</th>
                 <th className="table-head">Id</th>
@@ -40,10 +41,11 @@ const Table = ({ employees, handleEdit, handleDelete, loading }) => {
                       <TableEditButton onClick={() => handleEdit(employee.id)} />
                       <TableDeleteButton onClick={() => handleDelete(employee.id)} />
                     </td>
-                    <td className="table-cell">{employee.firstName}</td>
-                    <td className="table-cell">{employee.lastName}</td>
-                    <td className="table-cell">{employee.address}</td>
-                    <td className="table-cell">{employee.contactNumber}</td>
+                    <td className="table-cell">{employee.FirstName}</td>
+                    <td className="table-cell">{employee.LastName}</td>
+                    <td className="table-cell">{employee.Gender}</td>
+                    <td className="table-cell">{employee.Address}</td>
+                    <td className="table-cell">{employee.ContactNumber}</td>
                     <td className="table-cell">{employee.id}</td>
                   </tr>
                 ))

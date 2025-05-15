@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import showAlert from "../ConfirmationDialog/ConfirmationDialog";
 import { AiOutlineUser } from "react-icons/ai";
 
-import { doc, setDoc } from "firebase/firestore"; 
-import { db } from "../../services/firebase"; 
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../services/firebase";
 
 const AddStudentModal = ({
   isOpen,
@@ -18,12 +18,14 @@ const AddStudentModal = ({
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [gender, setGender] = useState("");
   const [address, setAddress] = useState("");
   const [contactNumber, setContactNumber] = useState("");
 
   const [errors, setErrors] = useState({
     firstName: false,
     lastName: false,
+    gender: false,
     address: false,
     contactNumber: false,
   });
@@ -41,10 +43,11 @@ const AddStudentModal = ({
 
   useEffect(() => {
     if (selectedStudent) {
-      setFirstName(selectedStudent.firstName || "");
-      setLastName(selectedStudent.lastName || "");
-      setAddress(selectedStudent.address || "");
-      setContactNumber(selectedStudent.contactNumber || "");
+      setFirstName(selectedStudent.FirstName || "");
+      setLastName(selectedStudent.LastName || "");
+      setGender(selectedStudent.Gender || "");
+      setAddress(selectedStudent.Address || "");
+      setContactNumber(selectedStudent.ContactNumber || "");
     }
   }, [selectedStudent]);
 
@@ -54,6 +57,7 @@ const AddStudentModal = ({
     const newErrors = {
       firstName: !firstName.trim() ? "First name is required" : "",
       lastName: !lastName.trim() ? "Last name is required" : "",
+      gender: !gender ? "Gender is required" : "",
       address: !address.trim() ? "Address is required" : "",
       contactNumber: !contactNumber.trim() ? "Contact number is required" : "",
     };
@@ -116,14 +120,15 @@ const AddStudentModal = ({
 
     const newEmployee = {
       id: id,
-      firstName: trimmedFirstName,
-      lastName: trimmedLastName,
-      address: trimmedAddress,
-      contactNumber: trimmedContactNumber,
+      FirstName: trimmedFirstName,
+      LastName: trimmedLastName,
+      Gender: gender,
+      Address: trimmedAddress,
+      ContactNumber: trimmedContactNumber,
     };
 
     try {
-      await setDoc(doc(db, "employees", id), {
+      await setDoc(doc(db, "users", id), {
         ...newEmployee,
       });
     } catch (error) {
@@ -135,6 +140,7 @@ const AddStudentModal = ({
 
     setFirstName("");
     setLastName("");
+    setGender("");
     setAddress("");
     setContactNumber("");
 
@@ -265,6 +271,41 @@ const AddStudentModal = ({
                 {errors.lastName && (
                   <div style={{ color: "red", fontSize: "1.1rem" }}>
                     {errors.lastName}
+                  </div>
+                )}
+              </div>
+
+              <div className="w-full flex flex-col gap-2">
+                <label
+                  htmlFor="gender"
+                  className="text-md font-medium text-black"
+                >
+                  Gender <span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="gender"
+                  value={gender}
+                  onChange={(e) => {
+                    setGender(e.target.value);
+                    if (errors.gender && e.target.value !== "") {
+                      setErrors((prev) => ({ ...prev, gender: false }));
+                    }
+                  }}
+                  className={`w-full p-3 border rounded-md outline-none transition text-black font-medium ${
+                    errors.gender
+                      ? "shadow-md border-red-500 ring-0 ring-red-400"
+                      : "shadow-sm border-gray-300 focus:border-slate-950 focus:ring-1 focus:shadow-md"
+                  }`}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Bayot</option>
+                  <option value="Other">Tomboy</option>
+                </select>
+                {errors.gender && (
+                  <div style={{ color: "red", fontSize: "1.1rem" }}>
+                    {errors.gender}
                   </div>
                 )}
               </div>

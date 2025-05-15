@@ -103,7 +103,7 @@ const Dashboard = () => {
         // setEmployees(employeesCopy);
         // setLoading(true);
         try {
-          await deleteDoc(doc(db, "employees", id));
+          await deleteDoc(doc(db, "users", id));
           setEmployees((prev) => prev.filter((employee) => employee.id !== id));
         } catch (error) {
           Swal.fire("Error", "Failed to delete record", "error");
@@ -136,7 +136,7 @@ const Dashboard = () => {
 
     try {
       setLoading(true);
-      const querySnapshot = await getDocs(collection(db, "employees"));
+      const querySnapshot = await getDocs(collection(db, "users"));
       const employeesList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
