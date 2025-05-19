@@ -71,7 +71,7 @@
   
 
   .table-head { 
-      @apply h-12 px-4 text-start uppercase text-gray-500 text-[.9rem];
+      @apply bg-slate-100 h-12 px-4 text-start uppercase text-gray-500 text-[.9rem];
   }
 
   .table-cell {
