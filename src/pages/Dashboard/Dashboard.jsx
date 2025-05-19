@@ -7,8 +7,9 @@ import Swal from "sweetalert2";
 import SyncLoader from "react-spinners/SyncLoader";
 import EditStudentModal from "../../components/Modal/EditStudentModal";
 import AddButton from "../../components/Buttons/AddButton";
+import LogoutButton from "../../components/Buttons/LogoutButton";
 
-const Dashboard = () => {
+const Dashboard = ({ setIsAuthenticated }) => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -171,6 +172,7 @@ const Dashboard = () => {
         </h1>
         <p className="">by Jefferson Balde</p>
         <AddButton onClick={() => setIsModalOpen(true)} text="Add Student" />
+        <LogoutButton setIsAuthenticated={setIsAuthenticated} />
       </div>
 
       {loading ? (
