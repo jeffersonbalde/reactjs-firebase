@@ -208,7 +208,7 @@ const AddStudentModal = ({
                 <input
                   id="firstName"
                   ref={firstNameRef}
-                  type="text"
+                  type="text"   
                   placeholder="Enter First Name"
                   value={firstName}
                   onChange={(e) => {

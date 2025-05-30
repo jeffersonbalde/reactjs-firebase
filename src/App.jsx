@@ -10,14 +10,14 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
-      <div className="AppGlass flex justify-center items-center p-3">
+    <div className="">
+      {/* <div className=""> */}
         {isAuthenticated ? (
         <Dashboard setIsAuthenticated={setIsAuthenticated} />
         ) : (
           <Login setIsAuthenticated={setIsAuthenticated} />
         )}
-      </div>
+      {/* // </div> */}
     </div>
   );
 };
