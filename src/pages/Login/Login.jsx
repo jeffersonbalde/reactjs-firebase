@@ -21,6 +21,7 @@ const Login = ({ setIsAuthenticated }) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const emailInputRef = useRef(null); // Create a ref for the email input
+  
 
   // Memoize the particlesInit function
   const particlesInit = useCallback(async (engine) => {
